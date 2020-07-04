@@ -8,9 +8,9 @@
 
 //Estucturas De Datos
 typedef struct{
-  int dia;
-  int mes;
-  int anno;
+  char* dia;
+  char* mes;
+  char* anno;
 }Fecha;
 
 typedef struct {
@@ -24,7 +24,6 @@ typedef struct {
   char* diagnostico;
   int sala;
   Fecha *fecha;
-  bool alta;
 }Ficha;
 
 //FUNCIONES CSV
@@ -33,10 +32,11 @@ char * _strdup (const char *s);
 
 //FUNCIONES DEL PROGRAMA
 void poblarMapas(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna, Ficha * persona);
-void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna);
+void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre,Map* prevMedica, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* alta);
 Ficha *crearPaciente(char *nombre, int edad, char *sexo, char *rut, char *sangre, char *prevMedica, char *comuna, char *diagnostico, int sala, int dia, int mes, int anno);
-int MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna);
-void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna);
+int MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map* alta);
+void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map* alta);
+void darAlta(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map* alta);
 
 //FUNCIONES DE FUNCION 5
 Fecha* separarFecha(char* prefecha);
@@ -67,7 +67,7 @@ int stringEqual(const void * key1, const void * key2) {
 
 
 
-void main(){
+int main(void){
     //Creamos los mapas a usar
     Map *mapaNombre = createMap(stringHash,stringEqual);
     Map *mapaRut = createMap(stringHash,stringEqual); //PROBLEMA
@@ -75,13 +75,16 @@ void main(){
     Map *mapaSangre = createMap(stringHash,stringEqual);
     Map *mapaMes = createMap(stringHash,stringEqual); //PROBLEMA
     Map *mapaAno = createMap(stringHash,stringEqual); //PROBLEMA
+    Map* mapaPrev = createMap(stringHash,stringEqual);
     Map *mapaComuna = createMap(stringHash,stringEqual);
+    Map *alta = createMap(stringHash,stringEqual); //MAPA PARA GUARDAR A LAS PERSONAS QUE FUERON DADAS DE ALTA POST ELIMINACION
     //Mostramos el menu principal desde alli modificamos las estructuras y llamamos a las funciones
-    MostrarMenu(mapaNombre,mapaRut,mapaSexo, mapaSangre,mapaMes,mapaAno,mapaComuna);
+    int retorno = MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+    return retorno;
 
 }
 
-int MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna){
+int MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta){
     system("@cls||clear");
     int key = 0;
     printf("***********************************************\n");
@@ -100,17 +103,18 @@ int MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, M
     printf("|---------------------------------------------|\n");
     printf("***********************************************\n");
     printf("\n");
-    printf("Ingrese Opcion\n");
     while(key != 6){
+        printf("Ingrese Opcion (NO INGRESE LETRAS PORFAVOR)\n");
         scanf("%d",&key);
         switch(key){
             case 1:
-            //LLAMAMOS AL SUBMENU DE INGRESO DE DATOS
-            //ingresoManual(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna);
+            //LLAMAMOS LA FUNCION DE INGRESO MANUAL
+            ingresoManual(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaPrev,mapaMes,mapaAno, mapaComuna,alta);
             break;
 
             case 2:
             //SUBMENU BUSQUEDA INDIVIDUAL
+
             break;
 
             case 3:
@@ -119,11 +123,12 @@ int MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, M
 
             case 4:
             //FUNCION DAR DE ALTA
+            darAlta(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
             break;
 
             case 5:
             //FUNCION IMPORTAR LISTA PACIENTES
-            CargarArchivo(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna);
+            CargarArchivo(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
             break;
 
             case 6:
@@ -134,11 +139,102 @@ int MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, M
 
             default:
             //OPCION NO VALIDA
-            printf("Opcion Invalida, Intente Denuevo\n");
-            key = 0;
+            printf("Opcion Invalida, Intente Denuevo\n(NO INGRESE LETRAS PORFAVOR\n)");
             break;
         }
     }
+}
+
+void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre,Map* mapaPrev, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* alta){
+    system("@cls||clear");
+    //PREGUNTAMOS E INGRESAMOS LOS DATOS QUE NOS PIDEN
+    char nombre[50];
+    printf("PORFAVOR INGRESE LOS DATOS SEGUN SE PIDEN\n");
+    fflush(stdin);
+    printf("NOMBRE: \n");
+    fflush(stdin);
+    scanf("%[^\n]s",&nombre);
+
+    char rut[12];
+    printf("RUT: \n");
+    fflush(stdin);
+    scanf("%[^\n]s",&rut);
+
+    char sexo[3];
+    printf("SEXO:(M O F) \n");
+    fflush(stdin);
+    scanf("%[^\n]s",&sexo);
+
+    char edad[3];
+    printf("EDAD: \n");
+    fflush(stdin);
+    scanf("%[^\n]s",&edad);
+
+    char diagnostico[50];
+    printf("DIAGNOSTICO O CONDICION: \n");
+    fflush(stdin);
+    scanf("%[^\n]s",&diagnostico);
+
+    char comuna[20];
+    printf("COMUNA DE RESIDENCIA: \n");
+    fflush(stdin);
+    scanf("%[^\n]s",&comuna);
+
+    char sangre[4];
+    printf("TIPO DE SANGRE: \n");
+    fflush(stdin);
+    scanf("%[^\n]s",&sangre);
+
+
+    char prevMedica[20];
+    printf("PREVISION MEDICA : \n");
+    fflush(stdin);
+    scanf("%[^\n]s",&prevMedica);
+
+    char dia[3];
+    printf("DIA DE INGRESO(EN NUMERO XX):\n");
+    fflush(stdin);
+    scanf("%[^\n]s",&dia);
+
+    char mes[3];
+    printf("MES DE INGRESO(EN NUMERO XX):\n");
+    fflush(stdin);
+    scanf("%[^\n]s",&mes);
+
+    char anno[5];
+    printf("ANNO DE INGRESO(EN NUMERO XXXX):\n");
+    fflush(stdin);
+    scanf("%[^\n]s",&anno);
+
+    //Ingresamos las variables al tipo ficha
+    Ficha* nuevo = (Ficha*) malloc (sizeof(Ficha));
+    nuevo->nombre = nombre;
+    nuevo->rut = rut;
+    nuevo->sexo = sexo;
+    nuevo->edad = edad;
+    nuevo->diagnostico = diagnostico;
+    nuevo->comuna = comuna;
+    nuevo->sangre = sangre;
+    nuevo->prevMedica = prevMedica;
+    printf("PARAMETROS INGRESADOS CORRETCTAMENTE\n");
+    Fecha* Nfecha =(Fecha*) malloc(sizeof(Fecha));
+    Nfecha->mes = mes;
+    Nfecha->dia = dia;
+    Nfecha->anno = anno;
+    nuevo->fecha = Nfecha;
+    printf("FECHA INGRESADA CORRECTAMENTE\n");
+    //LUEGO SE INSERTA EL TIPO FICHA EN TODOS LOS MAPAS
+    insertMap(mapaNombre,nuevo->nombre,nuevo);
+    insertMap(mapaRut,nuevo->rut,nuevo);
+    insertMap(mapaSexo,nuevo->sangre,nuevo);
+    insertMap(mapaComuna,nuevo->comuna,nuevo);
+    insertMap(mapaSangre,nuevo->sangre,nuevo);
+    insertMap(mapaPrev,nuevo->prevMedica,nuevo);
+    insertMap(mapaAno,nuevo->fecha->anno,nuevo);
+    insertMap(mapaMes,nuevo->fecha->mes,nuevo);
+    printf("PERSONA INGRESADA SATISFACTORIAMENTE AL SISTEMA\n");
+    getch();
+    return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
 }
 
 
@@ -163,12 +259,11 @@ Ficha *crearPaciente(char *nombre, int edad, char *sexo, char *rut, char *sangre
 
 
 //FUNCIONES INGRESO
-void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna){
+void CargarArchivo(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,Map* mapaMes,Map* mapaAno,Map* mapaComuna,Map* mapaPrev,Map* alta){
     FILE *fp = fopen("pacientes.csv","r");
     char linea[1024];
     if (fp == NULL){
         printf("ARCHIVO NO ENCONTRADO\n");
-        return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna);
     }
     else{
         //CONTAMOS LAS LINEAS DEL ARCHIVO
@@ -188,7 +283,6 @@ void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
             ficha->sala = atoi(get_csv_field(linea,9));
             char* prefecha =  (char*)get_csv_field(linea,10);
             ficha->fecha = separarFecha(prefecha);
-            ficha->alta = false;
             //Saltamos el tipo null leido desde archivo
             if(ficha->sexo != NULL){
                 //Luego poblamos los mapas por cada paciente leido desde el archivo
@@ -210,20 +304,51 @@ void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
                 insertMap(mapaSangre, ficha->sangre, ficha);
                 insertMap(mapaComuna, ficha->comuna, ficha);
                 insertMap(mapaRut,ficha->rut,ficha);
+                insertMap(mapaPrev,ficha->prevMedica,ficha);
                 Ficha* imprimir = searchMap(mapaNombre,ficha->nombre);
                 printf(" %s Si funciona\n",imprimir->nombre);
                 printf("INGRESADOS AL MAPA CORRECTAMENTE\n");
                 //PROBLEMAS AL INGRESAR A ESTOS 2 MAPAS
-                //insertMap(mapaAno,ficha->fecha->anno,ficha);
-                //insertMap(mapaMes,ficha->fecha->mes,ficha);
+                insertMap(mapaAno,ficha->fecha->anno,ficha);
+                insertMap(mapaMes,ficha->fecha->mes,ficha);
             }
         }
     getch();
     }
     fclose(fp);
-    return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna);
+    return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
 }
 
+//FUNCION DAR DE ALTA
+void darAlta(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,Map* mapaMes,Map* mapaAno,Map* mapaComuna,Map* mapaPrev,Map* alta){
+    char nombre[50];
+    char rut[12];
+    //Pedimos el rut y nombre de la persona que se desea dar de alta
+    printf("PORFAVOR INGRESE EL NOMBRE DE LA PERSONA\n");
+    fflush(stdin);
+    scanf("%[^\n]s",&nombre);
+    printf("PORVAFOR INGRESE EL RUT DE LA PERSONA(FORMATO XXXXXXXX-X)\n");
+    fflush(stdin);
+    scanf("%[^\n]s",&rut);
+    //CREAMOS UN AUX PARA GUARDAR LA FICHA DE LA PERSONA DADA DE ALTA
+    Ficha* aux = searchMap(mapaNombre,nombre);
+    //SI LA PERSONA NO ESTA
+    if(aux == NULL){
+        printf("LA PERSONA NO SE ENCUENTRA EN LA BASE DE DATOS PRESIONE ENTER PORFAVOR\n");
+        getch();
+        return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+    }
+    //Si se encuentra la persona
+    else{
+        //GUARDAMOS AUX EN EL MAPA DE ALTA
+        insertMap(alta,aux->nombre,aux);
+        //Lo eliminamos de los otros mapas
+        eraseKeyMap(mapaNombre,aux->nombre);
+        eraseKeyMap(mapaRut,aux->rut);
+        printf("PERSONA DADA DE ALTA SATISFACTORIAMENTE\n");
+        return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+    }
+}
 
 
 void poblarMapas(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna, Ficha * persona){
@@ -244,11 +369,11 @@ Fecha* separarFecha(char* prefecha){ //
     char* token;
     token = strtok(prefecha,s);
     //Guardamos los datos en el orden dia, mes, fecha
-    fecha->dia = atoi(token);
+    fecha->dia = token;
     token = strtok(NULL,s);
-    fecha->mes = atoi(token);
+    fecha->mes = token;
     token = strtok(NULL,s);
-    fecha->anno = atoi(token);
+    fecha->anno = token;
     return fecha;
 }
 
