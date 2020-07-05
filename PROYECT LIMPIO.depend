@@ -9,12 +9,13 @@
 
 1575514896 c:\users\asus\desktop\proyecto version limpia\map.h
 
-1593979275 source:c:\users\asus\desktop\proyecto version limpia\proyect limpio\main.c
+1593991193 source:c:\users\asus\desktop\proyecto version limpia\proyect limpio\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 	"Map.h"
+	"list.h"
 	<stdbool.h>
 
 1575514896 c:\users\asus\desktop\proyecto version limpia\proyect limpio\map.h
@@ -34,4 +35,11 @@
 	<stdlib.h>
 	<stdint.h>
 	<assert.h>
+
+1575514896 source:c:\users\asus\desktop\proyecto version limpia\proyect limpio\list.c
+	"list.h"
+	<stdlib.h>
+	<assert.h>
+
+1575514896 c:\users\asus\desktop\proyecto version limpia\proyect limpio\list.h
 

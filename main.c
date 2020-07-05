@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "Map.h"
+#include "list.h"
 #include <stdbool.h>
 
 
@@ -44,6 +45,7 @@ void darAlta(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map 
 
 //FUNCIONES DE FUNCION 5
 Fecha* separarFecha(char* prefecha);
+
 
 //FUNCIONES HASH Y EQUAL
 long long stringHash(const void * key);
@@ -344,15 +346,44 @@ void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
     Nfecha->anno = anno;
     nuevo->fecha = Nfecha;
     printf("FECHA INGRESADA CORRECTAMENTE\n");
-    //LUEGO SE INSERTA EL TIPO FICHA EN TODOS LOS MAPAS
+    //PROCEDEMOS A INGRESARLO A LA BASE DE DATOS
+    //REVISAMOS SI LA EL MAPA ESTA VACIO
+    if(firstMap(mapaNombre) == NULL){
+        //CREAMOS UNA LISTA VACIA E INSERTAMOS AL PACIENTE AHI
+        list* lista = list_create_empty();
+        list_push_front(lista,nuevo);
+        //INSERTAMOS A LA LISTA AL LOS MAPAS GRUPALES
+        insertMap(mapaAno,nuevo->fecha->anno,lista);
+        insertMap(mapaMes,nuevo->fecha->mes,lista);
+        insertMap(mapaComuna,nuevo->comuna,lista);
+        insertMap(mapaPrev,nuevo->prevMedica,lista);
+        insertMap(mapaSangre,nuevo->sangre,lista);
+        insertMap(mapaSexo,nuevo->sexo,lista);
+    }
+    //SINO AÑADIMOS EL TIPO FICHA NUEVO A CADA LISTA DE CADA MAPA GRUPAL
+    else{
+        //MAPA ANNO
+        list* aux = searchMap(mapaAno,nuevo->fecha->anno); //INGRESAMOS A LA LISTA DEL MAPA
+        list_push_front(aux,nuevo);
+        //MAPA MES
+        aux = searchMap(mapaMes,nuevo->fecha->mes); //INGRESAMOS A LA LISTA DEL MAPA
+        list_push_front(aux,nuevo);
+        //MAPA COMUNA
+        aux = searchMap(mapaComuna,nuevo->comuna); //INGRESAMOS A LA LISTA DEL MAPA
+        list_push_front(aux,nuevo);
+        //MAPA PREVISION M
+        aux = searchMap(mapaPrev,nuevo->prevMedica); //INGRESAMOS A LA LISTA DEL MAPA
+        list_push_front(aux,nuevo);
+        //MAPA SANGRE
+        aux = searchMap(mapaSangre,nuevo->sangre); //INGRESAMOS A LA LISTA DEL MAPA
+        list_push_front(aux,nuevo);
+        //MAPA SEXO
+        aux = searchMap(mapaSexo,nuevo->sexo); //INGRESAMOS A LA LISTA DEL MAPA
+        list_push_front(aux,nuevo);
+    }
+    //LUEGO SE INSERTA EL TIPO FICHA EN LOS MAPAS INDIVIDUALES
     insertMap(mapaNombre,nuevo->nombre,nuevo);
     insertMap(mapaRut,nuevo->rut,nuevo);
-    insertMap(mapaSexo,nuevo->sangre,nuevo);
-    insertMap(mapaComuna,nuevo->comuna,nuevo);
-    insertMap(mapaSangre,nuevo->sangre,nuevo);
-    insertMap(mapaPrev,nuevo->prevMedica,nuevo);
-    insertMap(mapaAno,nuevo->fecha->anno,nuevo);
-    insertMap(mapaMes,nuevo->fecha->mes,nuevo);
     printf("PERSONA INGRESADA SATISFACTORIAMENTE AL SISTEMA\n");
     getch();
     return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
@@ -408,7 +439,7 @@ void CargarArchivo(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,Ma
             ficha->comuna = (char*)get_csv_field(linea,7);
             ficha->diagnostico = (char*)get_csv_field(linea,8);
             ficha->sala = atoi(get_csv_field(linea,9));
-            char* prefecha =  (char*)get_csv_field(linea,10);
+            char* prefecha = get_csv_field(linea,10);
             ficha->fecha = separarFecha(prefecha);
             //Saltamos el tipo null leido desde archivo
             if(ficha->sexo != NULL){
@@ -423,21 +454,49 @@ void CargarArchivo(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,Ma
                 printf("|PREVISION MEDICA: %s      |\n",ficha->prevMedica);
                 printf("|COMUNA : %s            |\n",ficha->comuna);
                 printf("|DIAGNOSTICO: %s       |\n",ficha->diagnostico);
-                printf("|MES  : %d                         |\n",ficha->fecha->mes);
-                printf("|ANNO: %d                       |\n",ficha->fecha->anno);
-                printf("|DIA: %d                          |\n",ficha->fecha->dia);
+                printf("|MES  : %s                         |\n",ficha->fecha->mes);
+                printf("|ANNO: %s                       |\n",ficha->fecha->anno);
+                printf("|DIA: %s                          |\n",ficha->fecha->dia);
                 printf("|*********************************|\n");
+                //VEMOS SI EXISTEN LAS LISTAS EN LOS MAPAS(GRUPALES)
+                if(firstMap(mapaNombre) == NULL){
+                    //CREAMOS UNA LISTA VACIA E INSERTAMOS AL PACIENTE AHI
+                    list* lista = list_create_empty();
+                    list_push_front(lista,ficha);
+                    //INSERTAMOS A LA LISTA AL LOS MAPAS GRUPALES
+                    insertMap(mapaAno,ficha->fecha->anno,lista);
+                    insertMap(mapaMes,ficha->fecha->mes,lista);
+                    insertMap(mapaComuna,ficha->comuna,lista);
+                    insertMap(mapaPrev,ficha->prevMedica,lista);
+                    insertMap(mapaSangre,ficha->sangre,lista);
+                    insertMap(mapaSexo,ficha->sexo,lista);
+                    printf("INSERTADO A LAS LISTAS CORRECTAMENTE\n");
+                }
+                    //SINO AÑADIMOS EL TIPO FICHA NUEVO A CADA LISTA DE CADA MAPA GRUPAL
+                else{
+                    //MAPA ANNO
+                    list* aux = searchMap(mapaAno,ficha->fecha->anno); //INGRESAMOS A LA LISTA DEL MAPA
+                    list_push_front(aux,ficha);
+                    //MAPA MES
+                    aux = searchMap(mapaMes,ficha->fecha->mes);
+                    list_push_front(aux,ficha);
+                    //MAPA COMUNA
+                    aux = searchMap(mapaComuna,ficha->comuna);
+                    list_push_front(aux,ficha);
+                    //MAPA PREVISION M
+                    aux = searchMap(mapaPrev,ficha->prevMedica);
+                    list_push_front(aux,ficha);
+                    //MAPA SANGRE
+                    aux = searchMap(mapaSangre,ficha->sangre);
+                    list_push_front(aux,ficha);
+                    //MAPA SEXO
+                    aux = searchMap(mapaSexo,ficha->sexo);
+                    list_push_front(aux,ficha);
+                    printf("INSERTADO A LAS LISTAS CORRECTAMENTE\n");
+                }
+                //FINALMENTE INGRESAMOS LAS FICHAS A LOS MAPAS INDIVIDUALES
                 insertMap(mapaNombre,ficha->nombre,ficha);
-                insertMap(mapaSangre, ficha->sangre, ficha);
-                insertMap(mapaComuna, ficha->comuna, ficha);
                 insertMap(mapaRut,ficha->rut,ficha);
-                insertMap(mapaPrev,ficha->prevMedica,ficha);
-                Ficha* imprimir = searchMap(mapaNombre,ficha->nombre);
-                printf(" %s Si funciona\n",imprimir->nombre);
-                printf("INGRESADOS AL MAPA CORRECTAMENTE\n");
-                //PROBLEMAS AL INGRESAR A ESTOS 2 MAPAS
-                insertMap(mapaAno,ficha->fecha->anno,ficha);
-                insertMap(mapaMes,ficha->fecha->mes,ficha);
             }
         }
     getch();
@@ -470,10 +529,11 @@ void darAlta(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,Map* map
     else{
         //GUARDAMOS AUX EN EL MAPA DE ALTA
         insertMap(alta,aux->nombre,aux);
-        //Lo eliminamos de los otros mapas
+        //Lo eliminamos de los mapas individuales directamente
         eraseKeyMap(mapaNombre,aux->nombre);
         eraseKeyMap(mapaRut,aux->rut);
         printf("PERSONA DADA DE ALTA SATISFACTORIAMENTE\n");
+        getch();
         return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
     }
 }
