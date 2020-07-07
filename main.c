@@ -43,6 +43,12 @@ void subMenuIndividual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSa
 
 void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map* alta);
 void darAlta(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map* alta);
+//FUNCIONES SUBMENU GRUPAL
+int mapaVacio(Map* mapa);
+void buscarSexo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta);
+
+//FUNCIONES SUB MENU INDIVIDUAL
+void buscarNombre(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre,Map* mapaPrev, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* alta);
 
 //FUNCIONES DE FUNCION 5
 Fecha* separarFecha(char* prefecha);
@@ -155,120 +161,8 @@ void MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, 
     }
 }
 
-//FUNCION 2
-void subMenuIndividual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta){
-    system("@cls||clear");
-    int key3 = 0;
-    printf("|*********************************************|\n");
-    printf("|    MENU DE BUSQUEDA INDIVIDUAL              |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 1) BUSCAR PACIENTE POR NOMBRE               |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 2) BUSCAR PACIENTE POR RUT                  |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 3) VOLVER AL MENU ANTERIOR                  |\n");
-    printf("|---------------------------------------------|\n");
-    printf("|*********************************************|\n");
-    printf("\n");
-    do{
-        printf("PORFAVOR INGRESE LA OPCION DESEADA\n");
-        scanf(" %d",&key3);
-        fflush(stdin);
-        switch(key3){
-            case 1:
-            //FUNCION BUSCAR POR NOMBRE
-            break;
 
-            case 2:
-            //FUNCION BUSCAR POR RUT
-            break;
-
-            case 3:
-            return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
-            break;
-
-            default:
-            printf("OPCION INGRESADA NO VALIDA INGRESE NUEVAMENTE PORFAVOR\n");
-            fflush(stdin);
-            break;
-        }
-    }while(key3!=3);
-}
-
-
-//Funcion 3
-void subMenuGrupal(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta){
-    system("@cls||clear");
-    int key2 = 0;
-    printf("|*********************************************|\n");
-    printf("|    MENU DE BUSQUEDA MULTIPLE O GRUPAL       |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 1) BUSCAR PACIENTES POR SEXO                |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 2) BUSCAR PACIENTES POR TIPO DE SANGRE      |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 3) BUSCAR PACIENTES POR MES DE INGRESO       |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 4) BUSCAR PACIENTES POR ANNO DE INGRESO     |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 5) BUSCAR PACIENTES POR COMUNA              |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 6) BUSCAR PACIENTES POR PREVISION MEDICA    |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 7) BUSCAR PACIENTES POR SALA                |\n");
-    printf("|---------------------------------------------|\n");
-    printf("| 8) VOLVER AL MENU ANTERIOR                  |\n");
-    printf("|---------------------------------------------|\n");
-    printf("|*********************************************|\n");
-    printf("\n");
-    do{
-        printf("PORFAVOR INGRESE LA OPCION DESEADA\n");
-        scanf(" %d",&key2);
-        fflush(stdin);
-        switch(key2){
-            case 1:
-            //FUNCION BUSQUEDA SEXO
-            break;
-
-            case 2:
-            //FUNCION BUSQUEDA TIPO DE SANGRE
-            break;
-
-            case 3:
-            //FUNCION BUSQUEDA MES DE INGRESO
-            break;
-
-            case 4:
-            //FUNCION BUSQUEDA ANNO DE INGRESO
-            break;
-
-            case 5:
-            //FUNCION BUSQUEDA COMUNA
-            break;
-
-            case 6:
-            //FUNCION BUSQUEDA PREV MEDICA
-            break;
-
-            case 7:
-            //FUNCION BUSQUEDA GRUPAL POR SALA
-            break;
-
-            case 8:
-            return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
-            break;
-
-            default:
-            printf("OPCION INGRESADA NO VALIDA INGRESE NUEVAMENTE PORFAVOR\n");
-            fflush(stdin);
-            break;
-        }
-    }while(key2!=7);
-}
-
-
-
-//Funcion 1
+//FUNCION INGRESAR PACIENTE(1)
 void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre,Map* mapaPrev, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* alta){
     system("@cls||clear");
     //PREGUNTAMOS E INGRESAMOS LOS DATOS QUE NOS PIDEN
@@ -374,85 +268,190 @@ void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
 }
 
 
+//SUBMENU I  (FUNCION 2)
+void subMenuIndividual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta){
+    system("@cls||clear");
+    int key3 = 0;
+    printf("|*********************************************|\n");
+    printf("|    MENU DE BUSQUEDA INDIVIDUAL              |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 1) BUSCAR PACIENTE POR NOMBRE               |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 2) BUSCAR PACIENTE POR RUT                  |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 3) VOLVER AL MENU ANTERIOR                  |\n");
+    printf("|---------------------------------------------|\n");
+    printf("|*********************************************|\n");
+    printf("\n");
+    do{
+        printf("PORFAVOR INGRESE LA OPCION DESEADA\n");
+        scanf(" %d",&key3);
+        fflush(stdin);
+        switch(key3){
+            case 1:
+            //FUNCION BUSCAR POR NOMBRE
+            buscarNombre(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaPrev,mapaMes,mapaAno,mapaComuna,alta);
+            break;
 
+            case 2:
+            //FUNCION BUSCAR POR RUT
+            break;
 
+            case 3:
+            return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+            break;
 
-
-//FUNCIONES DE USO MULTIPLE
-Ficha *crearPaciente(char *nombre, int edad, char *sexo, char *rut, char *sangre, char *prevMedica, char *comuna, char *diagnostico, int sala, int dia, int mes, int anno){
-  Ficha *f = malloc(sizeof(Ficha));
-  f->nombre = nombre;
-  f->edad = edad;
-  f->sexo = sexo;
-  f->rut = rut;
-  f->sangre = sangre;
-  f->prevMedica = prevMedica;
-  f->comuna = comuna;
-  f->diagnostico = diagnostico;
-  f->sala = sala;
-  f->fecha->dia = dia;
-  f->fecha->mes = mes;
-  f->fecha->anno = anno;
-  return f;
+            default:
+            printf("OPCION INGRESADA NO VALIDA INGRESE NUEVAMENTE PORFAVOR\n");
+            fflush(stdin);
+            break;
+        }
+    }while(key3!=3);
 }
 
+//SUBFUNCION 1(2)
+void buscarNombre(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre,Map* mapaPrev, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* alta){
+    printf("PORFAVOR ESCRIBA EL NOMBRE DE LA PERSONA(NOMBRE PRIMER APELLIDO)\n");
+    fflush(stdin);
+    char nombre[50];
+    scanf(" %[^\n]s",nombre);
+    //Buscamos usando searchMap
+    Ficha* aux = searchMap(mapaNombre,nombre);
+    if(aux == NULL){
+        printf("404 PERSONA NO ENCONTRADA O INGRESADA\n VOLVIENDO AL MENU ANTERIOR\n");
+        return subMenuIndividual(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
 
-
-
-//FUNCIONES INGRESO
-void CargarArchivo(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,Map* mapaMes,Map* mapaAno,Map* mapaComuna,Map* mapaPrev,Map* alta){
-    system("@cls||clear");
-    FILE *fp = fopen("pacientes.csv","r");
-    char linea[1024];
-    if (fp == NULL){
-        printf("ARCHIVO NO ENCONTRADO\n");
     }
-    else{
-        //CONTAMOS LAS LINEAS DEL ARCHIVO
-        printf("ARCHIVO ENCONTRADO\n");
-        while(fgets(linea,1024,(FILE*)fp)!= NULL){
-            Ficha *ficha =  malloc (sizeof(Ficha)); //Se crea el tipo ficha
-            printf("FICHA CREADA\n");
-            //Ingresamos los datos que corresponden en orden al tipo ficha usando la funcion get_csv_field
-            ficha->nombre = (char*)get_csv_field(linea,1);
-            ficha->edad = atoi(get_csv_field(linea,2));
-            ficha->sexo = (char*)get_csv_field(linea,3);
-            ficha->rut = (char*)get_csv_field(linea,4);
-            ficha->sangre = (char*)get_csv_field(linea,5);
-            ficha->prevMedica = (char*)get_csv_field(linea,6);
-            ficha->comuna = (char*)get_csv_field(linea,7);
-            ficha->diagnostico = (char*)get_csv_field(linea,8);
-            ficha->sala = atoi(get_csv_field(linea,9));
-            char* prefecha = get_csv_field(linea,10);
-            ficha->fecha = separarFecha(prefecha);
-            //Luego poblamos los mapas por cada paciente leido desde el archivo
-            printf("|*********************************|\n");
-            printf("|INFORMACION DE PACIENTE INGRESADA|\n");
-            printf("|NOMBRE: %s           |\n",ficha->nombre);
-            printf("|EDAD: %d                         |\n",ficha->edad);
-            printf("|SEXO: %s                          |\n",ficha->sexo);
-            printf("|RUT: %s                |\n",ficha->rut);
-            printf("|TIPO DE SANGRE: %s               |\n",ficha->sangre);
-            printf("|PREVISION MEDICA: %s      |\n",ficha->prevMedica);
-            printf("|COMUNA : %s            |\n",ficha->comuna);
-            printf("|DIAGNOSTICO: %s       |\n",ficha->diagnostico);
-            printf("|MES  : %s                         |\n",ficha->fecha->mes);
-            printf("|ANNO: %s                       |\n",ficha->fecha->anno);
-            printf("|DIA: %s                          |\n",ficha->fecha->dia);
-            printf("|*********************************|\n");
-            getch();
-            //FUNCION PARA POBLAR MAPAS GRUPALES
-            insertarMapaGrupal(mapaNombre,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,ficha);
-            //FINALMENTE INGRESAMOS LAS FICHAS A LOS MAPAS INDIVIDUALES
-            insertMap(mapaNombre,ficha->nombre,ficha);
-            insertMap(mapaRut,ficha->rut,ficha);
-        }
-    }
-    fclose(fp);
+    //Imprmimimos su data
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| NOMBRE : %s                                                           |\n",aux->nombre);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| RUT : %s                                                              |\n",aux->rut);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| SEXO : %s                                                             |\n",aux->sexo);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| COMUNA: %s                                                            |\n",aux->comuna);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| PREVISION MEDICA : %s                                                 |\n",aux->prevMedica);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| TIPO DE SANGRE: %s                                                    |\n",aux->sangre);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| FECHA DE INGRESO: %s/%s/%s                                            |\n",aux->fecha->dia,aux->fecha->mes,aux->fecha->anno);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("\n");
+    printf("PRESIONE ENTER PARA VOLVER AL MENU PRINCIPAL\n");
+    getch();
     return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
 }
 
-//FUNCION DAR DE ALTA
+//SUBMENU G (FUNCION 3)
+void subMenuGrupal(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta){
+    system("@cls||clear");
+    int key2 = 0;
+    printf("|*********************************************|\n");
+    printf("|    MENU DE BUSQUEDA MULTIPLE O GRUPAL       |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 1) MOSTRAR PACIENTES POR SEXO                |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 2) MOSTRAR PACIENTES POR TIPO DE SANGRE      |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 3) MOSTRAR PACIENTES POR MES DE INGRESO       |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 4) MOSTRAR PACIENTES POR ANNO DE INGRESO     |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 5) MOSTRAR PACIENTES POR COMUNA              |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 6) MOSTRAR PACIENTES POR PREVISION MEDICA    |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 7) MOSTRAR PACIENTES POR SALA                |\n");
+    printf("|---------------------------------------------|\n");
+    printf("| 8) VOLVER AL MENU ANTERIOR                  |\n");
+    printf("|---------------------------------------------|\n");
+    printf("|*********************************************|\n");
+    printf("\n");
+    do{
+        printf("PORFAVOR INGRESE LA OPCION DESEADA\n");
+        scanf(" %d",&key2);
+        fflush(stdin);
+        switch(key2){
+            case 1:
+            //FUNCION BUSQUEDA SEXO
+            buscarSexo(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+            break;
+
+            case 2:
+            //FUNCION BUSQUEDA TIPO DE SANGRE
+            break;
+
+            case 3:
+            //FUNCION BUSQUEDA MES DE INGRESO
+            break;
+
+            case 4:
+            //FUNCION BUSQUEDA ANNO DE INGRESO
+            break;
+
+            case 5:
+            //FUNCION BUSQUEDA COMUNA
+            break;
+
+            case 6:
+            //FUNCION BUSQUEDA PREV MEDICA
+            break;
+
+            case 7:
+            //FUNCION BUSQUEDA GRUPAL POR SALA
+            break;
+
+            case 8:
+            return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+            break;
+
+            default:
+            printf("OPCION INGRESADA NO VALIDA INGRESE NUEVAMENTE PORFAVOR\n");
+            fflush(stdin);
+            break;
+        }
+    }while(key2!=7);
+}
+
+//SUBFUNCION 1(3)
+void buscarSexo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta){
+    system("@cls||clear");
+    char resp[2];
+    printf("QUE SEXO DESEA BUSCAR? (M O F)\n");
+    fflush(stdin);
+    scanf(" %s",resp);
+    //Accedemos a la lista de la respuesta
+    list* aux = searchMap(mapaSexo,resp);
+    if(aux == NULL){
+        printf("NO SE HAN INGRESADO PACIENTES DE SEXO TIPO %s",resp);
+        fflush(stdin);
+        return subMenuGrupal(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+    }
+    Ficha* auxF = list_first(aux);
+    //Accedemos a la primera ficha de la lista
+    while(auxF != NULL){
+        if(auxF->sexo != NULL){
+            //Imprimimos la data de forma ordenada
+            printf("| NOMBRE : %s | RUT:  %s  | SEXO: %s | COMUNA; %s \n| PREVICION M : %s | T.SANGRE: %s | MES DE I: %s | ANNO DE I: %s |\n",auxF->nombre,auxF->rut,auxF->sexo,auxF->comuna,auxF->prevMedica,auxF->sangre,auxF->fecha->mes,auxF->fecha->anno);
+            printf("\n");
+            fflush(stdin);
+            auxF = list_next(aux);
+            fflush(stdin);
+        }
+    }
+    printf("CARGA COMPLETADA PRESIONE ENTER PARA VOLVER AL MENU ANTERIOR\n");
+    fflush(stdin);
+    getch();
+    return subMenuGrupal(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+}
+
+//SUBFUNCION 2(3)
+
+
+
+//FUNCION DAR DE ALTA(4)
 void darAlta(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,Map* mapaMes,Map* mapaAno,Map* mapaComuna,Map* mapaPrev,Map* alta){
     system("@cls||clear");
     char nombre[50];
@@ -485,6 +484,70 @@ void darAlta(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,Map* map
     }
 }
 
+
+
+//FUNCION CARGAR ARCHIVO(5)
+void CargarArchivo(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,Map* mapaMes,Map* mapaAno,Map* mapaComuna,Map* mapaPrev,Map* alta){
+    system("@cls||clear");
+    bool pL = true; //AVISA SI LA LINEA QUE SE LEE ES LA PRIMERA QUE TIENE LOS PARAMETROS
+    FILE *fp = fopen("pacientes.csv","r");
+    char linea[1024];
+    if (fp == NULL){
+        printf("ARCHIVO NO ENCONTRADO\n");
+    }
+    else{
+        //CONTAMOS LAS LINEAS DEL ARCHIVO
+        printf("ARCHIVO ENCONTRADO\n");
+        while(fgets(linea,1024,(FILE*)fp)!= NULL){
+            Ficha *ficha =  malloc (sizeof(Ficha)); //Se crea el tipo ficha
+            //Ingresamos los datos que corresponden en orden al tipo ficha usando la funcion get_csv_field
+            ficha->nombre = (char*)get_csv_field(linea,1);
+            ficha->edad = atoi(get_csv_field(linea,2));
+            ficha->sexo = (char*)get_csv_field(linea,3);
+            ficha->rut = (char*)get_csv_field(linea,4);
+            ficha->sangre = (char*)get_csv_field(linea,5);
+            ficha->prevMedica = (char*)get_csv_field(linea,6);
+            ficha->comuna = (char*)get_csv_field(linea,7);
+            ficha->diagnostico = (char*)get_csv_field(linea,8);
+            ficha->sala = atoi(get_csv_field(linea,9));
+            char* prefecha = get_csv_field(linea,10);
+            ficha->fecha = separarFecha(prefecha);
+            if(pL == false){
+                if(ficha->sexo!= NULL){
+                //Luego poblamos los mapas por cada paciente leido desde el archivo
+                    printf("|*********************************|\n");
+                    printf("|INFORMACION DE PACIENTE INGRESADA|\n");
+                    printf("|NOMBRE: %s           |\n",ficha->nombre);
+                    printf("|EDAD: %d                         |\n",ficha->edad);
+                    printf("|SEXO: %s                          |\n",ficha->sexo);
+                    printf("|RUT: %s                |\n",ficha->rut);
+                    printf("|TIPO DE SANGRE: %s               |\n",ficha->sangre);
+                    printf("|PREVISION MEDICA: %s      |\n",ficha->prevMedica);
+                    printf("|COMUNA : %s            |\n",ficha->comuna);
+                    printf("|DIAGNOSTICO: %s       |\n",ficha->diagnostico);
+                    printf("|MES  : %s                         |\n",ficha->fecha->mes);
+                    printf("|ANNO: %s                       |\n",ficha->fecha->anno);
+                    printf("|DIA: %s                          |\n",ficha->fecha->dia);
+                    printf("|*********************************|\n");
+                    printf("PRESIONE ENTER PARA CONTINUAR\n");
+                    fflush(stdin);
+                    getch();
+                    //FUNCION PARA POBLAR MAPAS GRUPALES
+                    insertarMapaGrupal(mapaNombre,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,ficha);
+                    //FINALMENTE INGRESAMOS LAS FICHAS A LOS MAPAS INDIVIDUALES
+                    insertMap(mapaNombre,ficha->nombre,ficha);
+                    insertMap(mapaRut,ficha->rut,ficha);
+                }
+            }
+            pL = false;
+        }
+    }
+    fclose(fp);
+    return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+}
+
+
+
 //ARREGLAR
 void poblarMapas(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna, Ficha * persona){
     insertMap(mapaNombre, persona->nombre, persona);
@@ -496,6 +559,23 @@ void poblarMapas(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, 
     insertMap(mapaComuna, persona->comuna, persona);
 }
 
+//FUNCIONES DE USO MULTIPLE Y UTILIDADES
+Ficha *crearPaciente(char *nombre, int edad, char *sexo, char *rut, char *sangre, char *prevMedica, char *comuna, char *diagnostico, int sala, int dia, int mes, int anno){
+  Ficha *f = malloc(sizeof(Ficha));
+  f->nombre = nombre;
+  f->edad = edad;
+  f->sexo = sexo;
+  f->rut = rut;
+  f->sangre = sangre;
+  f->prevMedica = prevMedica;
+  f->comuna = comuna;
+  f->diagnostico = diagnostico;
+  f->sala = sala;
+  f->fecha->dia = dia;
+  f->fecha->mes = mes;
+  f->fecha->anno = anno;
+  return f;
+}
 
 Fecha* separarFecha(char* prefecha){ //
     Fecha *fecha =  malloc (sizeof(Fecha));
@@ -512,10 +592,11 @@ Fecha* separarFecha(char* prefecha){ //
     return fecha;
 }
 
-//INSERTAR EN MAPAS GRUPALES
+//INSERTAR PACIENTE EN MAPAS GRUPALES(FUNCIONES 1 Y 5)
 void insertarMapaGrupal(Map* mapaNombre,Map* mapaSexo,Map* mapaSangre,Map* mapaMes,Map* mapaAno,Map* mapaComuna,Map* mapaPrev,Ficha *ficha){
     //VEMOS SI LAS LISTAS ESTAN EN LOS MAPAS(GRUPALES)
-    if(firstMap(mapaNombre) == NULL){
+    //CHECKEAR QUE TODOS LOS MAPAS ESTEN VACIOS
+    if(mapaVacio(mapaNombre) == 0 || mapaVacio(mapaSexo) == 0 || mapaVacio(mapaSangre) == 0 || mapaVacio(mapaMes) == 0 || mapaVacio(mapaAno) == 0 || mapaVacio(mapaComuna) == 0||mapaVacio(mapaPrev) == 0){
     //CREAMOS UNA LISTA VACIA E INSERTAMOS AL PACIENTE AHI
         list* lista = list_create_empty();
         list_push_front(lista,ficha);
@@ -530,12 +611,12 @@ void insertarMapaGrupal(Map* mapaNombre,Map* mapaSexo,Map* mapaSangre,Map* mapaM
     }
     else{
         //MAPA ANNO
-        if(searchMap(mapaAno,ficha->fecha->anno) != NULL)
+        if(searchMap(mapaAno,ficha->fecha->anno))
         {
             list* aux = searchMap(mapaAno,ficha->fecha->anno); //INGRESAMOS A LA LISTA DEL MAPA
             list_push_front(aux,ficha);
         }
-        else
+        else if(!searchMap(mapaAno,ficha->fecha->anno))
         {
             list* aux = list_create_empty();
             list_push_front(aux,ficha);
@@ -543,71 +624,79 @@ void insertarMapaGrupal(Map* mapaNombre,Map* mapaSexo,Map* mapaSangre,Map* mapaM
         }
 
         //MAPA MES
-        if(searchMap(mapaMes,ficha->fecha->mes) != NULL)
+        if(searchMap(mapaMes,ficha->fecha->mes))
         {
             list* aux = searchMap(mapaMes,ficha->fecha->mes);
-            list_push_front(aux,ficha);
+            list_push_back(aux,ficha);
         }
-        else
+        else if(!searchMap(mapaMes,ficha->fecha->mes))
         {
             list* aux = list_create_empty();
-            list_push_front(aux,ficha);
+            list_push_back(aux,ficha);
             insertMap(mapaAno,ficha->fecha->mes,aux); //INSERTAMOS LA LISTA EN EL LUGAR DEL MAPA
         }
 
         //MAPA COMUNA
-        if(searchMap(mapaComuna,ficha->comuna) != NULL)
+        if(searchMap(mapaComuna,ficha->comuna))
         {
             list* aux = searchMap(mapaComuna,ficha->comuna); //INGRESAMOS A LA LISTA DEL MAPA
-            list_push_front(aux,ficha);
+            list_push_back(aux,ficha);
         }
-        else
+        else if(!searchMap(mapaComuna,ficha->comuna))
         {
             list* aux = list_create_empty();
-            list_push_front(aux,ficha);
+            list_push_back(aux,ficha);
             insertMap(mapaComuna,ficha->comuna,aux); //INSERTAMOS LA LISTA EN EL LUGAR DEL MAPA
         }
 
         //MAPA PREVISION M
-        if(searchMap(mapaPrev,ficha->prevMedica) != NULL)
+        if(searchMap(mapaPrev,ficha->prevMedica))
         {
             list* aux = searchMap(mapaPrev,ficha->prevMedica); //INGRESAMOS A LA LISTA DEL MAPA
-            list_push_front(aux,ficha);
+            list_push_back(aux,ficha);
         }
-        else
+        else if(!searchMap(mapaPrev,ficha->prevMedica))
         {
             //Creamos la lista y la insertamos
             list* aux = list_create_empty();
-            list_push_front(aux,ficha);
+            list_push_back(aux,ficha);
             insertMap(mapaPrev,ficha->prevMedica,aux);
         }
 
         //MAPA SANGRE
-        if(searchMap(mapaSangre,ficha->sangre) != NULL)
+        if(searchMap(mapaSangre,ficha->sangre))
         {
             list* aux = searchMap(mapaSangre,ficha->sangre); //INGRESAMOS A LA LISTA DEL MAPA
-            list_push_front(aux,ficha);
+            list_push_back(aux,ficha);
         }
-        else
+        else if(!searchMap(mapaSangre,ficha->sangre))
         {
             list* aux = list_create_empty();
-            list_push_front(aux,ficha);
+            list_push_back(aux,ficha);
             insertMap(mapaSangre,ficha->sangre,aux); //INSERTAMOS LA LISTA EN EL LUGAR DEL MAPA
         }
 
         //MAPA SEXO
-        if(searchMap(mapaSexo,ficha->sexo) != NULL)
+        if(searchMap(mapaSexo,ficha->sexo))
         {
             list* aux = searchMap(mapaSexo,ficha->sexo); //INGRESAMOS A LA LISTA DEL MAPA
-            list_push_front(aux,ficha);
+            list_push_back(aux,ficha);
         }
-        else
+        else if(!searchMap(mapaSexo,ficha->sexo))
         {
             list* aux = list_create_empty();
-            list_push_front(aux,ficha);
+            list_push_back(aux,ficha);
             insertMap(mapaSexo,ficha->sexo,aux); //INSERTAMOS LA LISTA EN EL LUGAR DEL MAPA
         }
     }
+}
+
+int mapaVacio(Map* mapa){
+    if(mapCount(mapa) == 0) return 0;
+    else{
+        return 1;
+    }
+
 }
 
 char * _strdup (const char *s) { //
