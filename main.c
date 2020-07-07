@@ -41,16 +41,19 @@ void MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, 
 void subMenuGrupal(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta);
 void subMenuIndividual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta);
 
-void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map* alta);
-void darAlta(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map* alta);
-//FUNCIONES SUBMENU GRUPAL
+//FUNCIONES SUB MENU INDIVIDUAL(FUNCION 2)
+void buscarNombre(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre,Map* mapaPrev, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* alta);
+void buscarRut(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta);
+
+//FUNCIONES SUBMENU GRUPAL (FUNCION 3)
 int mapaVacio(Map* mapa);
 void buscarSexo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta);
 
-//FUNCIONES SUB MENU INDIVIDUAL
-void buscarNombre(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre,Map* mapaPrev, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* alta);
+//FUNCION 4
+void darAlta(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map* alta);
 
-//FUNCIONES DE FUNCION 5
+//FUNCION 5
+void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map* alta);
 Fecha* separarFecha(char* prefecha);
 
 
@@ -58,24 +61,6 @@ Fecha* separarFecha(char* prefecha);
 long long stringHash(const void * key);
 int stringEqual(const void * key1, const void * key2);
 
-long long stringHash(const void * key) {
-    long long hash = 5381;
-
-    const char * ptr;
-
-    for (ptr = key; *ptr != '\0'; ptr++) {
-        hash = ((hash << 5) + hash) + tolower(*ptr);
-    }
-
-    return hash;
-}
-
-int stringEqual(const void * key1, const void * key2) {
-    const char * A = key1;
-    const char * B = key2;
-
-    return strcmp(A, B) == 0;
-}
 
 
 
@@ -96,6 +81,8 @@ int main(void){
     return 0;
 
 }
+
+
 //MENUS
 void MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta){
     system("@cls||clear");
@@ -295,6 +282,7 @@ void subMenuIndividual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSa
 
             case 2:
             //FUNCION BUSCAR POR RUT
+            buscarRut(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
             break;
 
             case 3:
@@ -343,6 +331,45 @@ void buscarNombre(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre,
     getch();
     return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
 }
+
+//SUBFUNCION 2(2)
+void buscarRut(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta){
+    system("@cls||clear");
+    printf("PORFAVOR INGRESE EL RUT DE LA PERSONA QUE ESTA BUSCANDO (FORMATO XXXXXXXX-X)\n");
+    char rut[10];
+    fflush(stdin);
+    scanf(" %s",rut);
+    //Buscamos la persona
+    Ficha* aux = searchMap(mapaRut,rut);
+    if(aux == NULL){
+        printf("404 RUT NO ENCONTRADO O INGRESADO\n VOLVIENDO AL MENU ANTERIOR\n");
+        fflush(stdin);
+        return subMenuIndividual(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+    }
+    //Imprmimimos su data
+    system("@cls||clear");
+    printf("PACIENTE ENCONTRADO \n");
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| NOMBRE : %s                                                           |\n",aux->nombre);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| RUT : %s                                                              |\n",aux->rut);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| SEXO : %s                                                             |\n",aux->sexo);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| COMUNA: %s                                                            |\n",aux->comuna);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| PREVISION MEDICA : %s                                                 |\n",aux->prevMedica);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| TIPO DE SANGRE: %s                                                    |\n",aux->sangre);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("| FECHA DE INGRESO: %s/%s/%s                                            |\n",aux->fecha->dia,aux->fecha->mes,aux->fecha->anno);
+    printf("|-----------------------------------------------------------------------|\n");
+    printf("\n");
+    printf("PRESIONE ENTER PARA VOLVER AL MENU PRINCIPAL\n");
+    getch();
+    return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
+}
+
 
 //SUBMENU G (FUNCION 3)
 void subMenuGrupal(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaPrev,Map *alta){
@@ -577,7 +604,7 @@ Ficha *crearPaciente(char *nombre, int edad, char *sexo, char *rut, char *sangre
   return f;
 }
 
-Fecha* separarFecha(char* prefecha){ //
+Fecha* separarFecha(char* prefecha){
     Fecha *fecha =  malloc (sizeof(Fecha));
     //La separamos
     const char s[2] = "/";
@@ -721,6 +748,24 @@ const char *get_csv_field (char * tmp, int i) { //
     return NULL;
 }
 
+long long stringHash(const void * key) {
+    long long hash = 5381;
+
+    const char * ptr;
+
+    for (ptr = key; *ptr != '\0'; ptr++) {
+        hash = ((hash << 5) + hash) + tolower(*ptr);
+    }
+
+    return hash;
+}
+
+int stringEqual(const void * key1, const void * key2) {
+    const char * A = key1;
+    const char * B = key2;
+
+    return strcmp(A, B) == 0;
+}
 
 
 
