@@ -1,7 +1,6 @@
 NOMBRE,EDAD,RUT,TPS,PM,COMUNA,CONDICION,FECHA
-Jose Contreras,23,M,19444348-K,A+,Banmedica,Vina del Mar,Brazo Roto,0,29/03/2023
-Esteban,23,M,9949290-9,B+,Fonasa,San Fernando,Pierna Rota,0,29/04/2021
-Seba,26,F,9949290-9,B+,Fonasa,Quillota,Brazo doblao,0,29/04/2021
-Mati,21,F,22123421-4,O,Fonasa,La Pintana,Diarrela,0,29/03/2022
+Seba,26,M,9949290-9,B+,Fonasa,Quillota,Brazo doblao,0,29/04/2021
+Mati,21,M,22123421-4,O,Fonasa,La Pintana,Diarrela,0,29/03/2022
+Jose Conterras,23,M,19444348-K,A+,Banmedica,Vina del Mar,0,Diarrea,20/02/2020
 
 
