@@ -1,5 +1,5 @@
 NOMBRE,EDAD,SEXO,RUT,TIPO SANGRE,PREV MEDICA,COMUNA,DIAGNOSTICO,SALA,FECHA
-Amanda Flores,26,F,20000092-K,A+,Colmena,Las Cruces,Cancer,0,20/09/2020
-Jose Contreras,24,M,19444348-8,B+,Banmendica,Concon,Diabetes,0,03/05/2020
-Matias Sanchez,23,M,20434659-5,B+,Fonasa,La Pintana,Diabetes,0,13/12/2020
+Amanda Flores,26,F,20000092-K,A+,Colmena,Las Cruces,Cancer,10,20/09/2020
+Jose Contreras,24,M,19444348-8,B+,Banmedica,Concon,Diabetes,9,03/05/2020
+Matias Sanchez,23,M,20434659-5,B+,Fonasa,La Pintana,Diabetes,4,13/12/2020
 
