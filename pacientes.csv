@@ -1,6 +1,5 @@
-NOMBRE,EDAD,RUT,TPS,PM,COMUNA,CONDICION,FECHA
-Seba,26,M,9949290-9,B+,Fonasa,Quillota,Brazo doblao,0,29/04/2021
-Mati,21,M,22123421-4,O,Fonasa,La Pintana,Diarrela,0,29/03/2022
-Jose Conterras,23,M,19444348-K,A+,Banmedica,Vina del Mar,0,Diarrea,20/02/2020
-
+NOMBRE,EDAD,SEXO,RUT,TIPO SANGRE,PREV MEDICA,COMUNA,DIAGNOSTICO,SALA,FECHA
+Amanda Flores,26,F,20000092-K,A+,Colmena,Las Cruces,Cancer,0,20/09/2020
+Jose Contreras,24,M,19444348-8,B+,Banmendica,Concon,Diabetes,0,03/05/2020
+Matias Sanchez,23,M,20434659-5,B+,Fonasa,La Pintana,Diabetes,0,13/12/2020
 
