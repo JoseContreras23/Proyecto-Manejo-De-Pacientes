@@ -65,6 +65,7 @@ int stringEqual(const void * key1, const void * key2);
 
 
 
+
 int main(void){
     //Creamos los mapas a usar
     Map *mapaNombre = createMap(stringHash,stringEqual);
@@ -286,6 +287,7 @@ void subMenuIndividual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSa
             break;
 
             case 3:
+            //VOLVER AL MENU ANTERIOR
             return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
             break;
 
@@ -306,7 +308,9 @@ void buscarNombre(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre,
     //Buscamos usando searchMap
     Ficha* aux = searchMap(mapaNombre,nombre);
     if(aux == NULL){
-        printf("404 PERSONA NO ENCONTRADA O INGRESADA\n VOLVIENDO AL MENU ANTERIOR\n");
+        printf("404 PERSONA NO ENCONTRADA O INGRESADA\nPRESIONE ENTER PARA VOLVER AL MENU ANTERIOR\n");
+        fflush(stdin);
+        getch();
         return subMenuIndividual(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaPrev,alta);
 
     }
@@ -459,11 +463,20 @@ void buscarSexo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, M
     Ficha* auxF = list_first(aux);
     //Accedemos a la primera ficha de la lista
     while(auxF != NULL){
+        //USAMOS LA FUNCION PARA VER SI EL PACIENTE FUE DADO DE ALTA
         if(auxF->sexo != NULL){
-            //Imprimimos la data de forma ordenada
-            printf("| NOMBRE : %s | RUT:  %s  | SEXO: %s | COMUNA; %s \n| PREVICION M : %s | T.SANGRE: %s | MES DE I: %s | ANNO DE I: %s |\n",auxF->nombre,auxF->rut,auxF->sexo,auxF->comuna,auxF->prevMedica,auxF->sangre,auxF->fecha->mes,auxF->fecha->anno);
-            printf("\n");
-            fflush(stdin);
+            if(searchMap(alta,auxF->nombre)){
+                //Imprimimos la data de forma ordenada
+                printf("| NOMBRE : %s | RUT:  %s  | SEXO: %s | COMUNA; %s \n| PREVICION M : %s | T.SANGRE: %s | MES DE I: %s | ANNO DE I: %s | DAD@ DE ALTA? : SI |\n",auxF->nombre,auxF->rut,auxF->sexo,auxF->comuna,auxF->prevMedica,auxF->sangre,auxF->fecha->mes,auxF->fecha->anno);
+                printf("\n");
+                fflush(stdin);
+            }
+            else{
+                //Imprimimos la data de forma ordenada
+                printf("| NOMBRE : %s | RUT:  %s  | SEXO: %s | COMUNA; %s \n| PREVICION M : %s | T.SANGRE: %s | MES DE I: %s | ANNO DE I: %s | DAD@ DE ALTA? : NO |\n",auxF->nombre,auxF->rut,auxF->sexo,auxF->comuna,auxF->prevMedica,auxF->sangre,auxF->fecha->mes,auxF->fecha->anno);
+                printf("\n");
+                fflush(stdin);
+            }
             auxF = list_next(aux);
             fflush(stdin);
         }
@@ -717,6 +730,7 @@ void insertarMapaGrupal(Map* mapaNombre,Map* mapaSexo,Map* mapaSangre,Map* mapaM
         }
     }
 }
+
 
 int mapaVacio(Map* mapa){
     if(mapCount(mapa) == 0) return 0;
