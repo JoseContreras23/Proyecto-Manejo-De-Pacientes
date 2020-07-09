@@ -832,7 +832,13 @@ void darAlta(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map 
 //FUNCION CARGAR ARCHIVO(5) //LISTO
 void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaSala,Map* mapaPrev,Map *alta){
     system("@cls||clear");
-    FILE *fp = fopen("pacientes.csv","r");
+    //PREGUNTAMOS POR EL NOMBRE DEL ARCHIVO
+    printf("PORFAVOR INGRESE EL NOMBRE DEL ARCHIVO QUE DESEA ABRIR\n(USE _ EN VEZ DE ESPACIOS  Y SIN .CSV)\n");
+    fflush(stdin);
+    char nombre[30];
+    scanf(" %[^\n]s",nombre);
+    strcat(nombre,".csv");
+    FILE *fp = fopen(nombre,"r");
     char linea[1024];
     if (fp == NULL){
         printf("ARCHIVO NO ENCONTRADO\n PRESIONE ENTER PARA VOLER AL MENU PRINCIPAL\n");
@@ -917,11 +923,12 @@ void exportarArchivo(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,
     //DESPUES INGRESAMOS LOS DATOS QUE CORRESPONDEN
     do{
         fprintf(fw,"%s,%d,%s,%s,%s,%s,%s,%s,%s,%s/%s/%s\n",aux->nombre,aux->edad,aux->sexo,aux->rut,aux->sangre,aux->prevMedica,aux->comuna,aux->diagnostico,aux->sala,aux->fecha->dia,aux->fecha->mes,aux->fecha->anno);
-        printf("VMO BIEN\n");
         aux = nextMap(mapaNombre);
     }while(aux);
     //Cerramos el archivo
     fclose(fw);
+    printf("ARCHIVO CREADO Y PACIENTES INGRESADOS SATISFACTORIAMENTE\n");
+    getch();
     return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaSala,mapaPrev,alta);
 }
 
