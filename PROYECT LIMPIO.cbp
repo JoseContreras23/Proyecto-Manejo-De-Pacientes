@@ -34,6 +34,7 @@
 		<Unit filename="Map.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="Pacientes.csv" />
 		<Unit filename="list.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -42,7 +43,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="map.h" />
-		<Unit filename="pacientes.csv" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -57,7 +57,6 @@ void exportarArchivo(Map* mapaNombre,Map* mapaRut,Map* mapaSexo,Map* mapaSangre,
 
 //FUNCIONES DE UTILIDAD
 void insertarMapaGrupal(Map* mapaSexo,Map* mapaSangre,Map* mapaMes,Map* mapaAno,Map* mapaComuna,Map* mapaSala,Map* mapaPrev,Ficha *ficha);
-//void poblarMapas(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna, Ficha * persona);
 const char* get_csv_field (char * tmp, int i);
 char * _strdup (const char *s);
 long long stringHash(const void * key);
@@ -162,17 +161,46 @@ void MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, 
 void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Map *mapaMes, Map *mapaAno, Map *mapaComuna,Map* mapaSala,Map* mapaPrev,Map *alta){
     system("@cls||clear");
     //PREGUNTAMOS E INGRESAMOS LOS DATOS QUE NOS PIDEN
-    char nombre[50];
     printf("PORFAVOR INGRESE LOS DATOS SEGUN SE PIDEN\n");
     fflush(stdin);
-    printf("NOMBRE: \n");
-    fflush(stdin);
-    scanf("%[^\n]s",nombre);
-
     char rut[12];
-    printf("RUT: \n");
-    fflush(stdin);
-    scanf("%[^\n]s",rut);
+    do{
+        printf("RUT: \n");
+        fflush(stdin);
+        scanf("%[^\n]s",rut);
+        if(searchMap(mapaRut,rut)){
+            printf("EL RUT YA SE ENCUENTRA REGISTRADO\n");
+            fflush(stdin);
+            getchar();
+            int x = 0;
+            do{
+                printf("QUE DESEA HACER:\n1) RECARGAR FUNCION\n2) VOLVER AL MENU PRINCIPAL\n");
+                fflush(stdin);
+                scanf(" %d",&x);
+                if(x == 1){
+                    return ingresoManual(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaSala,mapaPrev,alta);
+                }
+                if(x == 2){
+                    return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaSala,mapaPrev,alta);
+                }
+                else{
+                    printf("OPCION NO VALIDA INGRESE DENUEVO\n");
+                }
+            }while((x != 1) || (x != 2));
+        }
+    }while(searchMap(mapaRut,rut));
+
+    char nombre[50];
+    do{
+        fflush(stdin);
+        printf("NOMBRE: \n");
+        fflush(stdin);
+        scanf("%[^\n]s",nombre);
+        if(searchMap(mapaNombre,nombre)) printf("EL NOMBRE INGRESADO YA SE ENCUNETRA REGISTRADO,\nSE SUGIERE USAR MAS DETALLES DEL NOMBRE(SEGUNDO NOMBRE Y APELLIDO)\n");
+        fflush(stdin);
+    }while(searchMap(mapaNombre,nombre));
+
+
 
     char sexo[3];
     printf("SEXO:(M O F) \n");
@@ -862,7 +890,8 @@ void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
             ficha->sala = (char*)get_csv_field(linea,9);
             char* prefecha =(char*)get_csv_field(linea,10);
             ficha->fecha = separarFecha(prefecha);
-            if(ficha->edad != NULL){
+            //SI EL TIPO EDAD NO ES NULL(ARREGLA UN BUG CON CSV)
+            if(ficha->fecha->mes != NULL){
                 //Luego poblamos los mapas por cada paciente leido desde el archivo
                 printf("|*********************************|\n");
                 printf("|INFORMACION DE PACIENTE INGRESADA|\n");
@@ -882,11 +911,17 @@ void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
                 printf("PRESIONE ENTER PARA CONTINUAR\n");
                 fflush(stdin);
                 getch();
-                //FUNCION PARA POBLAR MAPAS GRUPALES
-                insertarMapaGrupal(mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaSala,mapaPrev,ficha);
-                //FINALMENTE INGRESAMOS LAS FICHAS A LOS MAPAS INDIVIDUALES
-                insertMap(mapaNombre,ficha->nombre,ficha);
-                insertMap(mapaRut,ficha->rut,ficha);
+                if(searchMap(mapaRut,ficha->rut)== NULL){
+                    //FUNCION PARA POBLAR MAPAS GRUPALES
+                    insertarMapaGrupal(mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaSala,mapaPrev,ficha);
+                    //FINALMENTE INGRESAMOS LAS FICHAS A LOS MAPAS INDIVIDUALES
+                    insertMap(mapaNombre,ficha->nombre,ficha);
+                    insertMap(mapaRut,ficha->rut,ficha);
+                }
+                else{
+                    printf("PERSONA REPETIDA DETECTADA, PASANDO A LA SIGUIENTE\nLA FICHA REPETIDA NO SE INGRESARA\n");
+                    getch();
+                }
             }
         }
     }
