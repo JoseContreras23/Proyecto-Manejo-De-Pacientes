@@ -2,5 +2,11 @@ NOMBRE,EDAD,SEXO,RUT,TIPO SANGRE,PREV MEDICA,COMUNA,DIAGNOSTICO,SALA,FECHA
 Amanda Flores,26,F,20000092-K,A+,Colmena,Las Cruces,Cancer,10,20/09/2020
 Jose Contreras,24,M,19444348-K,B+,Banmedica,Concon,Diabetes,09,03/05/2020
 Matias Sanchez,23,M,20434659-5,B+,Fonasa,La Pintana,Diabetes,04,13/12/2020
-Alan Brito,30,M,20444659-5,B+,Fonasa,La Pintana,Diabetes,04,13/12/2020
+Alan Brito,30,M,20444659-5,AB+,Fonasa,Santiago,Diabetes,04,13/12/2020
+John Lennon,40,M,12345678-9,B+,Imagine Security,New York(USA),Disparo en la espalda,40,8/12/1980
+Michael Jackson,50,M,11223445-6,O+,HEE HEE,Los Angeles(USA),Sobredosis de Propofol,40,25/06/2009
+Elvis Presley,42,M,77777777-9,AB+,THANK YOU VERY MUCH,Las Vegas(USA),Infarto Agudo Miocardio,40,16/08/1977
+Jeff Hanneman,49,M,66666666-6,B+,SLAYER,California(USA),Cirrosis hepatica,40,02/05/2013
+PJ Harvey,50,F,12122112-2,AB-,ELLO GOVNOR,Dorset(UK),Too Cool,40,10/07/2020
+
 
