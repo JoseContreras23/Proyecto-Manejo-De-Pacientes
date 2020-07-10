@@ -90,6 +90,8 @@ void MostrarMenu(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, 
     int key = 0;
     printf("|*********************************************|\n");
     printf("|---------------------------------------------|\n");
+    printf("| BIENVENIDOS AL ORGANIZADOR DE PACIENTES     |\n");
+    printf("|---------------------------------------------|\n");
     printf("| 1) INGRESAR PACIENTE MANUALMENTE            |\n");
     printf("|---------------------------------------------|\n");
     printf("| 2) BUSQUEDA INDIVIDUAL                      |\n");
@@ -165,7 +167,7 @@ void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
     fflush(stdin);
     char rut[12];
     do{
-        printf("RUT: \n");
+        printf("RUT: (FORMATO: XXXXXXXX-X)\n");
         fflush(stdin);
         scanf("%[^\n]s",rut);
         if(searchMap(mapaRut,rut)){
@@ -193,7 +195,7 @@ void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
     char nombre[50];
     do{
         fflush(stdin);
-        printf("NOMBRE: \n");
+        printf("NOMBRE: (FORMATO: NOMBRE APELLIDO)\n");
         fflush(stdin);
         scanf("%[^\n]s",nombre);
         if(searchMap(mapaNombre,nombre)) printf("EL NOMBRE INGRESADO YA SE ENCUNETRA REGISTRADO,\nSE SUGIERE USAR MAS DETALLES DEL NOMBRE(SEGUNDO NOMBRE Y APELLIDO)\n");
@@ -208,12 +210,12 @@ void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
     scanf("%[^\n]s",sexo);
 
     char sala[4];
-    printf("SALA: \n");
+    printf("SALA: (FORMATO: XX)\n");
     fflush(stdin);
     scanf("%[^\n]s",sala);
 
     char edad[3];
-    printf("EDAD: \n");
+    printf("EDAD: (FORMATO: XX)\n");
     fflush(stdin);
     scanf("%[^\n]s",edad);
 
@@ -222,19 +224,19 @@ void ingresoManual(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
     fflush(stdin);
     scanf("%[^\n]s",diagnostico);
 
-    char comuna[20];
-    printf("COMUNA DE RESIDENCIA: \n");
+    char comuna[26];
+    printf("COMUNA DE RESIDENCIA: (MAX: 25 CARACTERES)\n");
     fflush(stdin);
     scanf("%[^\n]s",comuna);
 
     char sangre[4];
-    printf("TIPO DE SANGRE: \n");
+    printf("TIPO DE SANGRE: (A+,B+,AB+,O+,A-,B-,AB-,O-) \n");
     fflush(stdin);
     scanf("%[^\n]s",sangre);
 
 
     char prevMedica[20];
-    printf("PREVISION MEDICA : \n");
+    printf("PREVISION MEDICA : (MAX 20 CARACTERES)\n");
     fflush(stdin);
     scanf("%[^\n]s",prevMedica);
 
@@ -365,23 +367,23 @@ void buscarNombre(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre,
         }
     }
     //Imprmimimos su data
-    printf("|-----------------------------------------------------------------------\n");
-    printf("| NOMBRE : %s                                                           \n",aux->nombre);
-    printf("|-----------------------------------------------------------------------\n");
-    printf("| RUT : %s                                                              \n",aux->rut);
-    printf("|-----------------------------------------------------------------------\n");
-    printf("| SEXO : %s                                                             \n",aux->sexo);
-    printf("|-----------------------------------------------------------------------\n");
-    printf("| SALA : %s                                                             \n",aux->sala);
-    printf("|-----------------------------------------------------------------------\n");
-    printf("| COMUNA: %s                                                            \n",aux->comuna);
-    printf("|-----------------------------------------------------------------------\n");
-    printf("| PREVISION MEDICA : %s                                                 \n",aux->prevMedica);
-    printf("|-----------------------------------------------------------------------\n");
-    printf("| TIPO DE SANGRE: %s                                                    \n",aux->sangre);
-    printf("|-----------------------------------------------------------------------\n");
-    printf("| FECHA DE INGRESO: %s/%s/%s                                            \n",aux->fecha->dia,aux->fecha->mes,aux->fecha->anno);
-    printf("|-----------------------------------------------------------------------\n");
+    printf("|--------------------------------------\n");
+    printf("| NOMBRE : %s                          \n",aux->nombre);
+    printf("|--------------------------------------\n");
+    printf("| RUT : %s                             \n",aux->rut);
+    printf("|--------------------------------------\n");
+    printf("| SEXO : %s                            \n",aux->sexo);
+    printf("|--------------------------------------\n");
+    printf("| SALA : %s                            \n",aux->sala);
+    printf("|--------------------------------------\n");
+    printf("| COMUNA: %s                           \n",aux->comuna);
+    printf("|--------------------------------------\n");
+    printf("| PREVISION MEDICA : %s                \n",aux->prevMedica);
+    printf("|--------------------------------------\n");
+    printf("| TIPO DE SANGRE: %s                   \n",aux->sangre);
+    printf("|--------------------------------------\n");
+    printf("| FECHA DE INGRESO: %s/%s/%s           \n",aux->fecha->dia,aux->fecha->mes,aux->fecha->anno);
+    printf("|--------------------------------------\n");
     printf("\n");
     printf("PRESIONE ENTER PARA VOLVER AL MENU PRINCIPAL\n");
     getch();
@@ -405,26 +407,23 @@ void buscarRut(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre, Ma
     }
     //Imprmimimos su data
     system("@cls||clear");
-    printf("PACIENTE ENCONTRADO \n");
-    printf("|-----------------------------------------------------------------------|\n");
-    printf("| NOMBRE : %s                                                           |\n",aux->nombre);
-    printf("|-----------------------------------------------------------------------|\n");
-    printf("| RUT : %s                                                              |\n",aux->rut);
-    printf("|-----------------------------------------------------------------------|\n");
-    printf("| SEXO : %s                                                             |\n",aux->sexo);
-    printf("|-----------------------------------------------------------------------|\n");
-    printf("| SALA : %s                                                             |\n",aux->sala);
-    printf("|-----------------------------------------------------------------------|\n");
-    printf("| COMUNA: %s                                                            |\n",aux->comuna);
-    printf("|-----------------------------------------------------------------------|\n");
-    printf("| PREVISION MEDICA : %s                                                 |\n",aux->prevMedica);
-    printf("|-----------------------------------------------------------------------|\n");
-    printf("| TIPO DE SANGRE: %s                                                    |\n",aux->sangre);
-    printf("|-----------------------------------------------------------------------|\n");
-    printf("| FECHA DE INGRESO: %s/%s/%s                                            |\n",aux->fecha->dia,aux->fecha->mes,aux->fecha->anno);
-    printf("|-----------------------------------------------------------------------|\n");
-    printf("\n");
-    printf("PRESIONE ENTER PARA VOLVER AL MENU PRINCIPAL\n");
+    printf("|--------------------------------------\n");
+    printf("| NOMBRE : %s                          \n",aux->nombre);
+    printf("|--------------------------------------\n");
+    printf("| RUT : %s                             \n",aux->rut);
+    printf("|--------------------------------------\n");
+    printf("| SEXO : %s                            \n",aux->sexo);
+    printf("|--------------------------------------\n");
+    printf("| SALA : %s                            \n",aux->sala);
+    printf("|--------------------------------------\n");
+    printf("| COMUNA: %s                           \n",aux->comuna);
+    printf("|--------------------------------------\n");
+    printf("| PREVISION MEDICA : %s                \n",aux->prevMedica);
+    printf("|--------------------------------------\n");
+    printf("| TIPO DE SANGRE: %s                   \n",aux->sangre);
+    printf("|--------------------------------------\n");
+    printf("| FECHA DE INGRESO: %s/%s/%s           \n",aux->fecha->dia,aux->fecha->mes,aux->fecha->anno);
+    printf("|--------------------------------------\n");
     getch();
     return MostrarMenu(mapaNombre,mapaRut,mapaSexo,mapaSangre,mapaMes,mapaAno,mapaComuna,mapaSala,mapaPrev,alta);
 }
@@ -875,7 +874,9 @@ void CargarArchivo(Map *mapaNombre, Map *mapaRut, Map *mapaSexo, Map *mapaSangre
     }
     else{
         //CONTAMOS LAS LINEAS DEL ARCHIVO
-        printf("ARCHIVO ENCONTRADO\n");
+        printf("ARCHIVO ENCONTRADO PRESIONE ENTER PARA SEGUIR\n");
+        fflush(stdin);
+        getch();
         while(fgets(linea,1024,(FILE*)fp)!= NULL){
             Ficha *ficha =  malloc (sizeof(Ficha)); //Se crea el tipo ficha
             //Ingresamos los datos que corresponden en orden al tipo ficha usando la funcion get_csv_field
